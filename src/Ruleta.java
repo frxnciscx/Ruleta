@@ -35,4 +35,20 @@ public class Ruleta {
         System.out.print("Elige una opcion: ");
     }
 
+    public static int leerOpcion (Scanner in){
+        return 0;
+    }
+
+    public static void ejecutarOpcion(int opcion, Scanner in){
+        switch (opcion){
+            case 1: iniciarRonda(in);
+            case 2: mostrarEstadistica();
+            case 3: System.out.println("Saliendo...");
+
+        }
+    }
+
+
+
+
 }
