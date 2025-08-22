@@ -51,12 +51,12 @@ public class Ruleta {
     public static void iniciarRonda(Scanner in){
         System.out.println("Iniciando Ronda...");
         System.out.println("Monto a apostar: ");
-        int montoApuesta = in.nextInt();
-        char tipoApuesta = leerTipoApuesta(in);
+        int monto = in.nextInt();
+        char tipo = leerTipoApuesta(in);
         int numero = girarRuleta();
-        boolean aciertoApuesta = evaluarResultado(numero, tipo);
-        registrarResultado(numero, montoApuesta, aciertoApuesta);
-        mostrarResultados(numero, tipoApuesta, montoApuesta, aciertoApuesta);
+        boolean acierto = evaluarResultado(numero, tipo);
+        registrarResultado(numero, monto, acierto);
+        mostrarResultados(numero, tipo, monto, acierto);
     }
 
     public static char leerTipoApuesta(Scanner in){
@@ -64,7 +64,14 @@ public class Ruleta {
         return in.next().toUpperCase().charAt(0);
     }
 
-    public static int girarRuleta(){}
+    public static int girarRuleta(){
+        return 0;
+    }
+
+    public static boolean evaluarResultado(int numero, int tipo){
+        return false;
+    }
+
 
 
 
