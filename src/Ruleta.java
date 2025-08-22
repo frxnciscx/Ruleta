@@ -27,4 +27,12 @@ public class Ruleta {
         in.close();
     }
 
+    public static void mostrarMenu(){
+        System.out.println(" MENU RULERA ");
+        System.out.println("1. Iniciar ronda");
+        System.out.println("2. Ver estadisticas");
+        System.out.println("3. Salir");
+        System.out.print("Elige una opcion: ");
+    }
+
 }
