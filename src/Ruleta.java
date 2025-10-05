@@ -54,19 +54,33 @@ public class Ruleta {
     }
 
     //ejecutar lo que el usuario eligio
-    public static void ejecutarOpcion(int opcion, Scanner in){
-        if(opcion==1) {
+    public static void ejecutarOpcion(int opcion, Scanner in) {
+        if (opcion == 1) {
             iniciarRonda(in);
-        } else if (opcion ==2) {
+        } else if (opcion == 2) {
             mostrarEstadisticas();
-        } else if (opcion ==3) {
+        } else if (opcion == 3) {
             System.out.println("Saliendo");
-        }else {
+        } else {
             System.err.println("Opcion invalida");
         }
+    }
 
-    }
-    }
+    //iniciar una ronda de la ruleta
+    public static void iniciarRonda(Scanner in) {
+        System.out.println("Iniciar Ronda");
+        char tipo = leerTipoApuesta(in);
+        System.out.print("Ingrese monto a apostar: ");
+        int monto = 0;
+        try {
+            monto = Integer.parseInt(in.nextLine().trim());
+        } catch (Exception e) {
+            System.out.println("Monto invalido");
+        }
+        int numero=girarRuleta(); //genera numero aleatorio
+        boolean acierto= evaluarResultado(numero,tipo); //evalua si gano
+        registrarResultado(numero, monto, acierto); //guarda el resultado
+        mostrarResultado(numero,tipo, monto, acierto); //muestra en la pantalla
     }
 
 
