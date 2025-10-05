@@ -53,6 +53,22 @@ public class Ruleta {
         return opcion;
     }
 
+    //ejecutar lo que el usuario eligio
+    public static void ejecutarOpcion(int opcion, Scanner in){
+        if(opcion==1) {
+            iniciarRonda(in);
+        } else if (opcion ==2) {
+            mostrarEstadisticas();
+        } else if (opcion ==3) {
+            System.out.println("Saliendo");
+        }else {
+            System.err.println("Opcion invalida");
+        }
+
+    }
+    }
+    }
+
 
 
 
