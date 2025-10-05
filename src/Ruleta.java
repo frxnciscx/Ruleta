@@ -38,6 +38,23 @@ public class Ruleta {
         System.out.println("3. Salir");
     }
 
+    //leer la opcion  del usuario
+    public static int leerOpcion (Scanner in){
+        System.out.print("Ingrese una opcion: ");
+        int opcion= -1;
+        try {
+            opcion=Integer.parseInt(in.nextLine().trim());
+        } catch (Exception e) {
+            System.err.println("Entrada invalida");
+        }
+        if(opcion<1 || opcion>3){
+            System.err.println("Opcion invalida");
+        }
+        return opcion;
+    }
+
+
+
 
 
 
