@@ -100,6 +100,33 @@ public class Ruleta {
         return numero;
     }
 
+    //evalua si el jugador acerto
+    public static boolean evaluarResultado(int numero, char tipo) {
+        if (tipo == 'R') {
+            return esRojo(numero);
+        }
+        if (tipo == 'N') {
+            return !esRojo(numero) && numero !=0;
+        }
+        if (tipo == 'P') {
+            return numero !=0 && numero %2==0;
+        }
+        if (tipo == 'I') {
+            return numero %2==1;
+        }
+        return false;
+    }
+
+    //verifica si el numero es rojo
+    public static boolean esRojo(int n) {
+        if (n == 0) return false;
+        for (int r : numerosRojos) {
+            if (r == n) return true;
+        }
+        return false;
+    }
+
+
 
 
 
