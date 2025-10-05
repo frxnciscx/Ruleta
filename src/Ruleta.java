@@ -83,6 +83,16 @@ public class Ruleta {
         mostrarResultado(numero,tipo, monto, acierto); //muestra en la pantalla
     }
 
+    //permite elegir tipo de apuesta
+    public static char leerTipoApuesta(Scanner in){
+        System.out.println("Ingrese tipo de apuesta");
+        System.out.println("R (ROJO), N (NEGRO), P (PAR), I (IMPAR);  ");
+        String s = in.nextLine().trim().toUpperCase();
+        if(s.isEmpty()) s = " ";
+        char tipo = s.charAt(0);
+        return tipo;
+    }
+
 
 
 
