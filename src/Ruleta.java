@@ -138,6 +138,16 @@ public class Ruleta {
         historialSize++;
     }
 
+    //muestra el resultado al jugador
+    public static void mostrarResultado(int numero, char tipo, int monto, boolean acierto) {
+        System.out.println("Numero: " + numero);
+        System.out.println("Apuesta: " + tipo);
+        System.out.println("Monto: " + monto);
+        System.out.println(acierto? "Ganaste! " : "Perdiste :(");
+        System.out.println("Presione Enter para continuar");
+        new Scanner(System.in).nextLine();
+    }
+
 
 
 
