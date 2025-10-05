@@ -126,6 +126,18 @@ public class Ruleta {
         return false;
     }
 
+    //guarda el resultado en el historial
+    public static void registrarResultado(int numero, int apuesta, boolean acierto) {
+        if (historialSize >= MAX_HISTORIAL) {
+            System.out.println("Historial lleno");
+            return;
+        }
+        historialNumeros[historialSize] = numero;
+        historialApuestas[historialSize] = apuesta;
+        historialAciertos[historialSize] = acierto;
+        historialSize++;
+    }
+
 
 
 
