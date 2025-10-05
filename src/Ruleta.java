@@ -11,6 +11,12 @@ public class Ruleta {
 
     public static Random rng = new Random();
 
+    //numeros rojos de la ruleta
+    public static int[] numerosRojos = {1,3,5,7,9,12,14,16,18,19,21,23,27,30,32,34,36};
+
+
+
+
 
 }
 
