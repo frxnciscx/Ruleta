@@ -30,6 +30,14 @@ public class Ruleta {
         in.close();
     }
 
+    //muestra las opciones en la pantalla
+    public static void mostrarMenu(){
+        System.out.println("==== MENU - BLACK CAT ====");
+        System.out.println("1. Iniciar una ronda");
+        System.out.println("2. Ver estadisticas");
+        System.out.println("3. Salir");
+    }
+
 
 
 
