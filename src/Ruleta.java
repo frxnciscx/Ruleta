@@ -13,13 +13,13 @@ public class Ruleta {
     public static Random rng = new Random();
 
     //numeros rojos de la ruleta
-    public static int[] numerosRojos = {1,3,5,7,9,12,14,16,18,19,21,23,27,30,32,34,36};
+    public static int[] numerosRojos = {1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 27, 30, 32, 34, 36};
 
     public static void main(String[] args) {
         menu();
     }
 
-    public static void menu(){
+    public static void menu() {
         Scanner in = new Scanner(System.in);
         int opcion;
         do {
@@ -31,7 +31,7 @@ public class Ruleta {
     }
 
     //muestra las opciones en la pantalla
-    public static void mostrarMenu(){
+    public static void mostrarMenu() {
         System.out.println("==== MENU - BLACK CAT ====");
         System.out.println("1. Iniciar una ronda");
         System.out.println("2. Ver estadisticas");
@@ -39,15 +39,15 @@ public class Ruleta {
     }
 
     //leer la opcion  del usuario
-    public static int leerOpcion (Scanner in){
+    public static int leerOpcion(Scanner in) {
         System.out.print("Ingrese una opcion: ");
-        int opcion= -1;
+        int opcion = -1;
         try {
-            opcion=Integer.parseInt(in.nextLine().trim());
+            opcion = Integer.parseInt(in.nextLine().trim());
         } catch (Exception e) {
             System.err.println("Entrada invalida");
         }
-        if(opcion<1 || opcion>3){
+        if (opcion < 1 || opcion > 3) {
             System.err.println("Opcion invalida");
         }
         return opcion;
@@ -77,20 +77,27 @@ public class Ruleta {
         } catch (Exception e) {
             System.out.println("Monto invalido");
         }
-        int numero=girarRuleta(); //genera numero aleatorio
-        boolean acierto= evaluarResultado(numero,tipo); //evalua si gano
+        int numero = girarRuleta(); //genera numero aleatorio
+        boolean acierto = evaluarResultado(numero, tipo); //evalua si gano
         registrarResultado(numero, monto, acierto); //guarda el resultado
-        mostrarResultado(numero,tipo, monto, acierto); //muestra en la pantalla
+        mostrarResultado(numero, tipo, monto, acierto); //muestra en la pantalla
     }
 
     //permite elegir tipo de apuesta
-    public static char leerTipoApuesta(Scanner in){
+    public static char leerTipoApuesta(Scanner in) {
         System.out.println("Ingrese tipo de apuesta");
         System.out.println("R (ROJO), N (NEGRO), P (PAR), I (IMPAR);  ");
         String s = in.nextLine().trim().toUpperCase();
-        if(s.isEmpty()) s = " ";
+        if (s.isEmpty()) s = " ";
         char tipo = s.charAt(0);
         return tipo;
+    }
+
+    //girar la ruleta (0 a 36)
+    public static int girarRuleta() {
+        int numero = rng.nextInt(37);
+        System.out.print("Girando la ruleta... ");
+        return numero;
     }
 
 
