@@ -89,8 +89,7 @@ public class Ruleta {
         System.out.println("R (ROJO), N (NEGRO), P (PAR), I (IMPAR);  ");
         String s = in.nextLine().trim().toUpperCase();
         if (s.isEmpty()) s = " ";
-        char tipo = s.charAt(0);
-        return tipo;
+        return s.charAt(0);
     }
 
     //girar la ruleta (0 a 36)
@@ -144,16 +143,41 @@ public class Ruleta {
         System.out.println("Apuesta: " + tipo);
         System.out.println("Monto: " + monto);
         System.out.println(acierto? "Ganaste! " : "Perdiste :(");
-        System.out.println("Presione Enter para continuar");
+        System.out.print("Presione Enter para continuar");
         new Scanner(System.in).nextLine();
     }
 
-    //muestra estadisticas generales
+    //calcula y muestra las estadisticas
     public static void mostrarEstadisticas() {
         System.out.println("Estadisticas");
-        System.out.println("Cantidad de rondas: " + historialSize);
-        System.out.println("Total apostado: ");
-        System.out.println("Aciertos: ");
+
+        int totalApostado = 0;
+        int totalAciertos = 0;
+        int gananciaNeta = 0;
+
+        //esto recorre los arreglos y suma los valores
+        for (int i = 0; i < historialApuestas.length; i++) {
+            totalApostado += historialApuestas[i];
+            if (historialAciertos[i]) {
+                totalAciertos++;
+                gananciaNeta += historialApuestas[i]; //gana el monto
+            } else {
+                gananciaNeta -= historialApuestas[i]; //pierde el monto
+            }
+        }
+
+        //calcula el porcentaje de aciertos
+        double porcentajeAcierto = 0.0;
+        if (historialSize > 0)
+            porcentajeAcierto = (totalAciertos * 100.0) / (double) historialSize;
+
+        System.out.println("Rondas jugadas: " + historialSize);
+        System.out.println("Total apostado: " + totalApostado);
+        System.out.println("Total de aciertos: " + totalAciertos);
+        System.out.println("Porcentaje de aciertos: " + porcentajeAcierto);
+        System.out.println("Ganancia/Perdida neta: "  + gananciaNeta);
+        System.out.print("Presione Enter para continuar");
+        new Scanner(System.in).nextLine();
     }
 
 
