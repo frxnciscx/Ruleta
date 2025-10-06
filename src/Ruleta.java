@@ -148,6 +148,14 @@ public class Ruleta {
         new Scanner(System.in).nextLine();
     }
 
+    //muestra estadisticas generales
+    public static void mostrarEstadisticas() {
+        System.out.println("Estadisticas");
+        System.out.println("Cantidad de rondas: " + historialSize);
+        System.out.println("Total apostado: ");
+        System.out.println("Aciertos: ");
+    }
+
 
 
 
