@@ -1,29 +1,33 @@
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VentanLogin {
+public class VentanaLogin {
+
+    //lista de usuarios
     public static final List<Usuario> USUARIOS = new ArrayList<>();
 
     private final JFrame frame = new JFrame("Login - Casino Black Cat");
-    private final JLabel lblUsuario = new JLabel("Usuario:");
+    private final JLabel lblUsuario = new JLabel("Usuario: ");
     private final JTextField txtUsuario = new JTextField();
-    private final JLabel lblClave = new JLabel("Clave:");
+    private final JLabel lblClave = new JLabel("Clave: ");
     private final JPasswordField txtClave = new JPasswordField();
     private final JButton btnIngresar = new JButton("Ingresar");
 
-    public VentanLogin() {
+    public VentanaLogin() {
         inicializarUsuarios();
         inicializarVentana();
     }
 
+    //cargar usuarios de ejemplo
     private void inicializarUsuarios() {
-        USUARIOS.add(new Usuario("Francisca", "1234", "Francisca"));
-        USUARIOS.add(new Usuario("Admin", "1234", "Administrados"));
+        USUARIOS.add(new Usuario("admin", "1234", "Administrador"));
+        USUARIOS.add(new Usuario("fran", "abcd", "Francisca"));
     }
 
+    //configurar ventana
     private void inicializarVentana() {
         frame.setLayout(null);
         frame.setSize(300, 200);
@@ -41,7 +45,7 @@ public class VentanLogin {
         frame.add(txtClave);
         frame.add(btnIngresar);
 
-        btnIngresar.addActionListener(new  ActionListener() {
+        btnIngresar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 login();
@@ -49,31 +53,36 @@ public class VentanLogin {
         });
     }
 
+    //muestra la ventana
     public void mostrarVentana() {
-        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
+    //logica del login
     private void login() {
-        String usuario = txtUsuario.getText();
-        String clave = new String(txtClave.getPassword());
+        String u = txtUsuario.getText();
+        String p = new String(txtClave.getPassword());
+        String nombre = validarCredenciales(u, p);
 
-        String nombre = validarCredenciales(usuario, clave);
         if (!nombre.isEmpty()) {
-            JOptionPane.showMessageDialog(frame, "Bienvenido "+nombre);
-            frame.dispose();
-            new VentanaPrincipal(nombre).mostrarVentana;
+            JOptionPane.showMessageDialog(frame, "Bienvenido " + nombre);
+            frame.dispose(); //cierra la ventana actual
         } else  {
-            JOptionPane.showMessageDialog(frame, "Usuario o Clave incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(frame, "Usuario o clave incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
+    //valida las credenciales contra la lista
     private String validarCredenciales(String u, String p) {
-        for (Usuario user : USUARIOS) {
-            if (user.validarCredenciales(u,p)) {
-                return user.getNombre();
+        for (Usuario usr : USUARIOS) {
+            if (usr.validarCredenciales(u,p)) {
+                return usr.getNombre();
             }
         }
         return "";
+    }
+
+    public  static void main(String[] args) {
+        new VentanaLogin().mostrarVentana();
     }
 }
