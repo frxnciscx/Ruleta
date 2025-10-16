@@ -1,3 +1,7 @@
+package vista;
+
+import modelo.Usuario;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,7 +14,7 @@ public class VentanaLogin {
     public static final List<Usuario> USUARIOS = new ArrayList<>();
 
     private final JFrame frame = new JFrame("Login - Casino Black Cat");
-    private final JLabel lblUsuario = new JLabel("Usuario: ");
+    private final JLabel lblUsuario = new JLabel("modelo.Usuario: ");
     private final JTextField txtUsuario = new JTextField();
     private final JLabel lblClave = new JLabel("Clave: ");
     private final JPasswordField txtClave = new JPasswordField();
@@ -79,7 +83,7 @@ public class VentanaLogin {
             JOptionPane.showMessageDialog(frame, "Bienvenido " + nombre);
             frame.dispose(); //cierra la ventana actual
         } else  {
-            JOptionPane.showMessageDialog(frame, "Usuario o clave incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(frame, "modelo.Usuario o clave incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
