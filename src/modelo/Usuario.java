@@ -1,3 +1,5 @@
+package modelo;
+
 public class Usuario {
     private String username;
     private String password;
@@ -18,5 +20,4 @@ public class Usuario {
     public String getNombre() {
         return nombre;
     }
-
 }
