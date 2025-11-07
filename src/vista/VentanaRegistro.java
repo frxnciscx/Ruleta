@@ -1,3 +1,7 @@
+package vista;
+
+import modelo.Usuario;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -5,7 +9,7 @@ import java.awt.event.ActionListener;
 public class VentanaRegistro {
 
     private final JFrame frame = new JFrame("Registro - Casino Black Cat");
-    private final JLabel lblUsuario = new JLabel("Usuario: ");
+    private final JLabel lblUsuario = new JLabel("modelo.Usuario: ");
     private final JTextField txtUsuario = new JTextField();
     private final JLabel lblClave = new JLabel("Clave: ");
     private final JPasswordField txtClave = new JPasswordField();
@@ -63,7 +67,7 @@ public class VentanaRegistro {
 
         VentanaLogin.USUARIOS.add(new Usuario(u, p, nombre));
 
-        JOptionPane.showMessageDialog(frame, "Usuario registrado con exito");
+        JOptionPane.showMessageDialog(frame, "modelo.Usuario registrado con exito");
         frame.dispose();
         new VentanaLogin().mostrarVentana(); // vuelve al login
     }
