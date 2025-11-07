@@ -2,12 +2,41 @@ package controlador;
 
 import modelo.Usuario;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.FileNotFoundException;
+
 public class SessionController {
 
     private Usuario usuarioActual;
+    private static final String ARCHIVO_USUARIO = "usuario.dat";
 
     public SessionController() {
         this.usuarioActual = null;
+        cargarUsuario();
+    }
+
+    private void cargarUsuario() {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(ARCHIVO_USUARIO))) {
+            this.usuarioActual = (Usuario) ois.readObject();
+        } catch (FileNotFoundException e) {
+            System.out.println("Archivo de usuario no encontrado. Iniciar sin usuario.");
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Error al cargar el usuario: " + e.getMessage());
+        }
+    }
+
+    private void guardarUsuario() {
+        if (this.usuarioActual == null) return;
+
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ARCHIVO_USUARIO))) {
+            oos.writeObject(this.usuarioActual);
+        } catch (IOException e) {
+            System.err.println("Error al guardar el usuario: " + e.getMessage());
+        }
     }
 
     public void registrarUsuario(String u, String p, String n) {
@@ -16,6 +45,7 @@ public class SessionController {
             return;
         }
         this.usuarioActual = new Usuario(u, p, n);
+        guardarUsuario();
     }
 
     public boolean iniciarSesion(String u, String p) {
@@ -34,6 +64,7 @@ public class SessionController {
     }
 
     public void cerrarSesion() {
-        usuarioActual = null;
+        guardarUsuario();
+        this.usuarioActual = null;
     }
 }
