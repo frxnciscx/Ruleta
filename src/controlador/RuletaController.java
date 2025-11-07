@@ -2,7 +2,7 @@ package controlador;
 
 import modelo.Ruleta;
 import modelo.Usuario;
-import modelo.TipoApuesta;
+import modelo.ApuestaBase;
 import modelo.Resultado;
 
 public class RuletaController {
@@ -17,36 +17,23 @@ public class RuletaController {
         this.ruleta = new Ruleta(usuario.getSaldo());
     }
 
-    public void jugar(int monto, TipoApuesta tipoApuesta) {
-        int saldoAntes = ruleta.getSaldo();
-
-        ruleta.jugar(monto, tipoApuesta);
+    public void jugar(ApuestaBase apuesta) {
+        ruleta.jugar(apuesta);
 
         int saldoDespues = ruleta.getSaldo();
         boolean acierto = ruleta.getUltimoAcierto();
         int numero = ruleta.getUltimoNumero();
-        int ganancia = saldoDespues - saldoAntes;
+        int ganancia = saldoDespues - usuario.getSaldo();
 
         usuario.actualizarSaldo(ganancia);
 
-        Resultado res = new Resultado(numero, tipoApuesta, monto, acierto, saldoDespues);
-
+        Resultado res = new Resultado(numero, apuesta, acierto, saldoDespues);
         usuario.agregarResultado(res);
     }
 
-    public int getUltimoNumero() {
-        return ruleta.getUltimoNumero();
-    }
-
-    public boolean getUltimoAcierto() {
-        return ruleta.getUltimoAcierto();
-    }
-
-    public boolean esRojo(int n) {
-        return ruleta.esRojo(n);
-    }
-
-    public int getSaldoActual() {
-        return usuario.getSaldo();
-    }
+    // Getters para la Vista
+    public int getUltimoNumero() { return ruleta.getUltimoNumero(); }
+    public String getUltimoColor() { return ruleta.getUltimoColor(); }
+    public boolean getUltimoAcierto() { return ruleta.getUltimoAcierto(); }
+    public int getSaldoActual() { return usuario.getSaldo(); }
 }
