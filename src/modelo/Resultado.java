@@ -1,9 +1,11 @@
 package modelo;
 
-public class Resultado {
+import java.io.Serializable;
+
+public class Resultado implements Serializable {
 
     private final int numero;
-    private final String apuestaEtiqueta; // Reemplaza TipoApuesta
+    private final String apuestaEtiqueta;
     private final int monto;
     private final boolean acierto;
     private final int saldoResultante;
