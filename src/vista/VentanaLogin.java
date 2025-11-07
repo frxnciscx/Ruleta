@@ -1,7 +1,7 @@
 package vista;
 
 import controlador.SessionController;
-
+import controlador.ResultadoController;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 public class VentanaLogin {
 
     private final SessionController session;
+    private final ResultadoController historial;
 
     private final JFrame frame = new JFrame("Login - Casino Black Cat");
     private final JLabel lblUsuario = new JLabel("Usuario: ");
@@ -21,8 +22,9 @@ public class VentanaLogin {
     private final JButton btnIngresar = new JButton("Ingresar");
     private final JButton btnRegistrar = new JButton("Registrarse");
 
-    public VentanaLogin(SessionController session) {
+    public VentanaLogin(SessionController session, ResultadoController historial) {
         this.session = session;
+        this.historial = historial;
         inicializarVentana();
     }
 
@@ -60,7 +62,7 @@ public class VentanaLogin {
 
         if (session.iniciarSesion(u, p)) {
             frame.dispose();
-            new VentanaMenu(session).mostrarVentana();
+            new VentanaMenu(session, historial).mostrarVentana();
         } else {
             JOptionPane.showMessageDialog(frame, "Usuario o clave incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -68,6 +70,6 @@ public class VentanaLogin {
 
     private void abrirRegistro() {
         frame.dispose();
-        new VentanaRegistro(session).mostrarVentana();
+        new VentanaRegistro(session, historial).mostrarVentana();
     }
 }
