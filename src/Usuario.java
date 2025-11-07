@@ -1,5 +1,3 @@
-package modelo;
-
 public class Usuario {
     private String username;
     private String password;
@@ -10,6 +8,7 @@ public class Usuario {
         this.password = password;
         this.nombre = nombre;
     }
+
 
     //verifica si las credenciales coinciden
     public boolean validarCredenciales(String u, String p) {

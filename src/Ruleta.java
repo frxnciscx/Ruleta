@@ -179,12 +179,4 @@ public class Ruleta {
         System.out.print("Presione Enter para continuar");
         new Scanner(System.in).nextLine();
     }
-
-
-
-
-
-
-
 }
-
