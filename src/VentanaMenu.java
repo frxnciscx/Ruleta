@@ -1,14 +1,14 @@
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JButton;
 
 public class VentanaMenu {
 
     private final JFrame frame;
     private final Usuario usuario;
 
-    private final JLabel lblTitulo = new JLabel("RULETA — Casino Black Cat");
-    private final JLabel lblBienvenida = new JLabel("Bienvenido/a al menú principal.");
+    private final JLabel lblTitulo = new JLabel("RULETA - Casino Black Cat");
+    private final JLabel lblBienvenida = new JLabel("Bienvenido/a al menu principal.");
     private final JLabel lblInstrucciones = new JLabel("A la izquierda tienes las opciones:");
     private final JLabel lblUsuarioLogueado;
 
@@ -18,10 +18,8 @@ public class VentanaMenu {
 
     public VentanaMenu(Usuario usuario) {
         this.usuario = usuario;
-        this.frame = new JFrame("Menú Principal - Black Cat");
-
+        this.frame = new JFrame("Menu Principal - Black Cat");
         this.lblUsuarioLogueado = new JLabel(usuario.getNombre());
-
         configurarVentana();
         agregarEventos();
     }
@@ -47,12 +45,13 @@ public class VentanaMenu {
     }
 
     private void agregarEventos() {
+
         btnJugar.addActionListener(e -> {
-            JOptionPane.showMessageDialog(frame, "Ventana 'Jugar' (se implementará aparte)");
+            new VentanaJuego(usuario, frame).mostrarVentana();
         });
 
         btnHistorial.addActionListener(e -> {
-            JOptionPane.showMessageDialog(frame, "Ventana 'Historial' (se implementará aparte)");
+            javax.swing.JOptionPane.showMessageDialog(frame, "Ventana 'Historial' (se implementara aparte).");
         });
 
         btnSalir.addActionListener(e -> {
