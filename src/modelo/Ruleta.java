@@ -8,12 +8,14 @@ public class Ruleta {
 
     private final Random rng;
     private int ultimoNumero;
+    private String ultimoColor;
     private boolean ultimoAcierto;
     private int saldo;
 
     public Ruleta(int saldoInicial) {
         this.rng = new Random();
         this.ultimoNumero = -1;
+        this.ultimoColor = "N/A";
         this.saldo = saldoInicial;
     }
 
@@ -21,14 +23,16 @@ public class Ruleta {
         this(0);
     }
 
-    public void jugar(int monto, TipoApuesta tipoApuesta) {
+    public void jugar(ApuestaBase apuesta) {
         this.ultimoNumero = this.girarRuleta();
-        this.ultimoAcierto = this.evaluarResultado(this.ultimoNumero, tipoApuesta);
+        this.ultimoColor = this.colorDe(this.ultimoNumero);
+
+        this.ultimoAcierto = apuesta.acierta(this.ultimoNumero, this.ultimoColor);
 
         if (this.ultimoAcierto) {
-            this.saldo += monto;
+            this.saldo += apuesta.getMonto();
         } else {
-            this.saldo -= monto;
+            this.saldo -= apuesta.getMonto();
         }
     }
 
@@ -36,20 +40,17 @@ public class Ruleta {
         return rng.nextInt(37);
     }
 
-    private boolean evaluarResultado(int numero, TipoApuesta tipo) {
+    private String colorDe(int numero) {
         if (numero == 0) {
-            return false;
+            return "VERDE";
         }
-
-        return switch (tipo) {
-            case ROJO -> esRojo(numero);
-            case NEGRO -> !esRojo(numero);
-            case PAR -> numero % 2 == 0;
-            case IMPAR -> numero % 2 != 0;
-        };
+        if (this.esRojo(numero)) {
+            return "ROJO";
+        }
+        return "NEGRO";
     }
 
-    public boolean esRojo(int n) {
+    private boolean esRojo(int n) {
         if (n == 0) return false;
         for (int r : NUMEROS_ROJOS) {
             if (r == n) return true;
@@ -59,6 +60,10 @@ public class Ruleta {
 
     public int getUltimoNumero() {
         return ultimoNumero;
+    }
+
+    public String getUltimoColor() {
+        return ultimoColor;
     }
 
     public boolean getUltimoAcierto() {
