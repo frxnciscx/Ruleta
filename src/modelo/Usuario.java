@@ -1,16 +1,23 @@
 package modelo;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class Usuario {
+
     private String username;
     private String password;
     private String nombre;
     private int saldo;
+    private final List<Resultado> historial;
 
     public Usuario(String username, String password, String nombre) {
         this.username = username;
         this.password = password;
         this.nombre = nombre;
         this.saldo = 1000;
+        this.historial = new ArrayList<>();
     }
 
     public Usuario() {
@@ -50,5 +57,13 @@ public class Usuario {
 
     public void actualizarSaldo(int monto) {
         this.saldo += monto;
+    }
+
+    public void agregarResultado(Resultado r) {
+        this.historial.add(r);
+    }
+
+    public List<Resultado> getHistorial() {
+        return Collections.unmodifiableList(historial);
     }
 }
