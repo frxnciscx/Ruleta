@@ -5,18 +5,19 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class Estadisticas {
+
     private int totalJugadas;
     private int victorias;
     private double porcentajeVictorias;
     private int rachaMaxima;
-    private TipoApuesta tipoMasJugado;
+    private String tipoMasJugado;
 
     public Estadisticas(List<Resultado> historial) {
         this.totalJugadas = 0;
         this.victorias = 0;
         this.porcentajeVictorias = 0.0;
         this.rachaMaxima = 0;
-        this.tipoMasJugado = null;
+        this.tipoMasJugado = "N/A";
 
         if (historial != null && !historial.isEmpty()) {
             calcularEstadisticas(historial);
@@ -27,7 +28,8 @@ public class Estadisticas {
         this.totalJugadas = historial.size();
 
         int rachaActual = 0;
-        Map<TipoApuesta, Integer> conteoApuestas = new HashMap<>();
+
+        Map<String, Integer> conteoApuestas = new HashMap<>();
 
         for (Resultado res : historial) {
 
@@ -41,7 +43,7 @@ public class Estadisticas {
                 rachaActual = 0;
             }
 
-            TipoApuesta tipo = res.getTipoApuesta();
+            String tipo = res.getApuestaEtiqueta();
             conteoApuestas.put(tipo, conteoApuestas.getOrDefault(tipo, 0) + 1);
         }
 
@@ -54,10 +56,8 @@ public class Estadisticas {
         }
 
         int maxConteo = 0;
-        if (conteoApuestas.isEmpty()){
-            this.tipoMasJugado = null;
-        } else {
-            for (Map.Entry<TipoApuesta, Integer> entry : conteoApuestas.entrySet()) {
+        if (!conteoApuestas.isEmpty()){
+            for (Map.Entry<String, Integer> entry : conteoApuestas.entrySet()) {
                 if (entry.getValue() > maxConteo) {
                     maxConteo = entry.getValue();
                     this.tipoMasJugado = entry.getKey();
@@ -82,7 +82,7 @@ public class Estadisticas {
         return rachaMaxima;
     }
 
-    public TipoApuesta getTipoMasJugado() {
+    public String getTipoMasJugado() {
         return tipoMasJugado;
     }
 }
