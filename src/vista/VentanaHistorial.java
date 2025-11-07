@@ -9,6 +9,7 @@ import javax.swing.JTextArea;
 import java.util.List;
 
 public class VentanaHistorial {
+
     private final JFrame frame;
     private final JTextArea txtHistorial;
     private final ResultadoController historial;
@@ -43,7 +44,7 @@ public class VentanaHistorial {
                 String linea = String.format(
                         "Numero: %d | Apuesta: %s | Monto: %d | %s | Saldo: %d\n",
                         res.getNumero(),
-                        res.getTipoApuesta(),
+                        res.getApuestaEtiqueta(),
                         res.getMonto(),
                         gano,
                         res.getSaldoResultante()
