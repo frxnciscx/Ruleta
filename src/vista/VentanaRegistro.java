@@ -1,8 +1,17 @@
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+package vista;
+
+import controlador.SessionController;
+import controlador.ResultadoController;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JPasswordField;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 public class VentanaRegistro {
+    private final SessionController session;
+    private final ResultadoController historial;
 
     private final JFrame frame = new JFrame("Registro - Casino Black Cat");
     private final JLabel lblUsuario = new JLabel("Usuario: ");
@@ -14,10 +23,17 @@ public class VentanaRegistro {
     private final JButton btnRegistrar = new JButton("Registrar");
     private final JButton btnVolver = new JButton("Volver");
 
-    public VentanaRegistro() {
+    public VentanaRegistro(SessionController session, ResultadoController historial) {
+        this.session = session;
+        this.historial = historial;
+        inicializarVentana();
+    }
+
+    private void inicializarVentana() {
         frame.setLayout(null);
         frame.setSize(320, 250);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
 
         lblUsuario.setBounds(30, 30, 80, 25);
         txtUsuario.setBounds(120, 30, 150, 25);
@@ -37,13 +53,7 @@ public class VentanaRegistro {
         frame.add(btnRegistrar);
         frame.add(btnVolver);
 
-        btnRegistrar.addActionListener(new  ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                registrarUsuario();
-            }
-        });
-
+        btnRegistrar.addActionListener(e -> intentarRegistro());
         btnVolver.addActionListener(e -> volverLogin());
     }
 
@@ -51,7 +61,7 @@ public class VentanaRegistro {
         frame.setVisible(true);
     }
 
-    private void registrarUsuario() {
+    private void intentarRegistro() {
         String u = txtUsuario.getText();
         String p = new String(txtClave.getPassword());
         String nombre = txtNombre.getText();
@@ -61,16 +71,14 @@ public class VentanaRegistro {
             return;
         }
 
-        VentanaLogin.USUARIOS.add(new Usuario(u, p, nombre));
+        session.registrarUsuario(u, p, nombre);
 
         JOptionPane.showMessageDialog(frame, "Usuario registrado con exito");
-        frame.dispose();
-        new VentanaLogin().mostrarVentana(); // vuelve al login
+        volverLogin();
     }
 
     private void volverLogin() {
         frame.dispose();
-        new VentanaLogin().mostrarVentana();
+        new VentanaLogin(session, historial).mostrarVentana();
     }
-
 }

@@ -1,0 +1,122 @@
+package vista;
+
+import controlador.SessionController;
+import controlador.ResultadoController;
+import controlador.RuletaController;
+import modelo.TipoApuesta;
+import modelo.Resultado;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.DefaultComboBoxModel;
+
+public class VentanaRuleta {
+    private final SessionController session;
+    private final ResultadoController historial;
+    private final RuletaController ruletaControlador;
+
+    private final JFrame frame;
+    private final JLabel lblTipoApuesta = new JLabel("Tipo de apuesta:");
+    private final JComboBox<String> cmbTipoApuesta = new JComboBox<>(new String[]{"Color", "Paridad"});
+    private final JLabel lblSeleccion = new JLabel("Seleccione color:");
+    private final JComboBox<TipoApuesta> cmbSeleccion = new JComboBox<>(new TipoApuesta[]{TipoApuesta.ROJO, TipoApuesta.NEGRO});
+    private final JLabel lblMonto = new JLabel("Monto:");
+    private final JTextField txtMonto = new JTextField("100");
+    private final JButton btnGirar = new JButton("Girar");
+    private final JLabel lblSaldo;
+    private final JLabel lblResultado = new JLabel("Haga su apuesta");
+
+    public VentanaRuleta(SessionController session, ResultadoController historial) {
+        this.session = session;
+        this.historial = historial;
+        this.ruletaControlador = new RuletaController(session.getUsuarioActual());
+        this.frame = new JFrame("Juego Ruleta - Black Cat");
+        this.lblSaldo = new JLabel("Saldo: " + ruletaControlador.getSaldoActual());
+
+        configurarVentana();
+        agregarEventos();
+    }
+
+    private void configurarVentana() {
+        frame.setLayout(null);
+        frame.setSize(550, 300);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+
+        lblTipoApuesta.setBounds(30, 30, 120, 25);
+        cmbTipoApuesta.setBounds(160, 30, 150, 25);
+        lblSeleccion.setBounds(30, 70, 120, 25);
+        cmbSeleccion.setBounds(160, 70, 150, 25);
+        lblMonto.setBounds(30, 110, 120, 25);
+        txtMonto.setBounds(160, 110, 100, 25);
+        btnGirar.setBounds(270, 110, 80, 25);
+        lblSaldo.setBounds(370, 110, 150, 25);
+        lblResultado.setBounds(30, 170, 480, 25);
+
+        frame.add(lblTipoApuesta); frame.add(cmbTipoApuesta);
+        frame.add(lblSeleccion); frame.add(cmbSeleccion);
+        frame.add(lblMonto); frame.add(txtMonto);
+        frame.add(btnGirar); frame.add(lblSaldo);
+        frame.add(lblResultado);
+    }
+
+    private void agregarEventos() {
+        cmbTipoApuesta.addActionListener(e -> actualizarCmbSeleccion());
+        btnGirar.addActionListener(e -> accionGirar());
+    }
+
+    private void actualizarCmbSeleccion() {
+        if (cmbTipoApuesta.getSelectedItem().equals("Color")) {
+            lblSeleccion.setText("Seleccione color:");
+            cmbSeleccion.setModel(new DefaultComboBoxModel<>(new TipoApuesta[]{TipoApuesta.ROJO, TipoApuesta.NEGRO}));
+        } else {
+            lblSeleccion.setText("Seleccione paridad:");
+            cmbSeleccion.setModel(new DefaultComboBoxModel<>(new TipoApuesta[]{TipoApuesta.PAR, TipoApuesta.IMPAR}));
+        }
+    }
+
+    private void accionGirar() {
+        int monto;
+        try {
+            monto = Integer.parseInt(txtMonto.getText());
+            if (monto <= 0 || monto > ruletaControlador.getSaldoActual()) {
+                JOptionPane.showMessageDialog(frame, "Monto invalido o insuficiente", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(frame, "Monto debe ser un numero", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        TipoApuesta apuesta = (TipoApuesta) cmbSeleccion.getSelectedItem();
+
+        ruletaControlador.jugar(monto, apuesta);
+
+        int saldoFinal = ruletaControlador.getSaldoActual();
+        boolean acierto = ruletaControlador.getUltimoAcierto();
+        int numero = ruletaControlador.getUltimoNumero();
+
+        Resultado res = new Resultado(numero, apuesta, monto, acierto, saldoFinal);
+        historial.agregarResultado(res);
+
+        actualizarVista(res);
+    }
+
+    private void actualizarVista(Resultado res) {
+        String color = (res.getNumero() == 0) ? "Verde" : (ruletaControlador.esRojo(res.getNumero()) ? "Rojo" : "Negro");
+        String gano = res.isAcierto() ? "GANASTE" : "PERDISTE";
+
+        lblResultado.setText(String.format("Numero: %d (%s) | Apuesta: %s | %s",
+                res.getNumero(), color, res.getTipoApuesta(), gano));
+
+        lblSaldo.setText("Saldo: " + res.getSaldoResultante());
+    }
+
+    public void mostrarVentana() {
+        frame.setVisible(true);
+    }
+}

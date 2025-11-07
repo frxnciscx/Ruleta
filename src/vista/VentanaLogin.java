@@ -1,12 +1,19 @@
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
+package vista;
+
+import controlador.SessionController;
+import controlador.ResultadoController;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JPasswordField;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 public class VentanaLogin {
 
-    public static final List<Usuario> USUARIOS = new ArrayList<>();
+    private final SessionController session;
+    private final ResultadoController historial;
+
     private final JFrame frame = new JFrame("Login - Casino Black Cat");
     private final JLabel lblUsuario = new JLabel("Usuario: ");
     private final JTextField txtUsuario = new JTextField();
@@ -15,17 +22,10 @@ public class VentanaLogin {
     private final JButton btnIngresar = new JButton("Ingresar");
     private final JButton btnRegistrar = new JButton("Registrarse");
 
-
-    public VentanaLogin() {
-        if (USUARIOS.isEmpty()) {
-            inicializarUsuarios();
-        }
+    public VentanaLogin(SessionController session, ResultadoController historial) {
+        this.session = session;
+        this.historial = historial;
         inicializarVentana();
-    }
-
-    private void inicializarUsuarios() {
-        USUARIOS.add(new Usuario("admin", "1234", "Administrador"));
-        USUARIOS.add(new Usuario("fran", "abcd", "Francisca"));
     }
 
     private void inicializarVentana() {
@@ -48,55 +48,28 @@ public class VentanaLogin {
         frame.add(btnIngresar);
         frame.add(btnRegistrar);
 
-        btnIngresar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                login();
-            }
-        });
-
-        btnRegistrar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                abrirRegistro();
-            }
-        });
+        btnIngresar.addActionListener(e -> intentarLogin());
+        btnRegistrar.addActionListener(e -> abrirRegistro());
     }
 
     public void mostrarVentana() {
         frame.setVisible(true);
     }
 
-
-    private void login() {
+    private void intentarLogin() {
         String u = txtUsuario.getText();
         String p = new String(txtClave.getPassword());
 
-        Usuario usuarioValidado = validarCredenciales(u, p);
-
-        if (usuarioValidado != null) {
+        if (session.iniciarSesion(u, p)) {
             frame.dispose();
-            new VentanaMenu(usuarioValidado).mostrarVentana();
-        } else  {
+            new VentanaMenu(session, historial).mostrarVentana();
+        } else {
             JOptionPane.showMessageDialog(frame, "Usuario o clave incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    private Usuario validarCredenciales(String u, String p) {
-        for (Usuario usr : USUARIOS) {
-            if (usr.validarCredenciales(u,p)) {
-                return usr;
-            }
-        }
-        return null;
-    }
-
     private void abrirRegistro() {
         frame.dispose();
-        new VentanaRegistro().mostrarVentana();
-    }
-
-    public static void main(String[] args) {
-        new VentanaLogin().mostrarVentana();
+        new VentanaRegistro(session, historial).mostrarVentana();
     }
 }
