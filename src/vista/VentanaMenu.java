@@ -21,6 +21,7 @@ public class VentanaMenu {
 
     private final JButton btnJugar = new JButton("Jugar");
     private final JButton btnPerfil = new JButton("Perfil");
+    private final JButton btnHistorial = new JButton("Historial");
     private final JButton btnSalir = new JButton("Salir");
 
     public VentanaMenu(SessionController session, ResultadoController historial) {
@@ -38,22 +39,24 @@ public class VentanaMenu {
 
     private void configurarVentana() {
         frame.setLayout(null);
-        frame.setSize(500, 300);
+        frame.setSize(500, 320);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
 
         btnJugar.setBounds(20, 70, 100, 30);
         btnPerfil.setBounds(20, 110, 100, 30);
-        btnSalir.setBounds(20, 150, 100, 30);
+        btnHistorial.setBounds(20, 150, 100, 30);
+        btnSalir.setBounds(20, 190, 100, 30);
 
         lblTitulo.setBounds(150, 30, 300, 25);
         lblBienvenida.setBounds(150, 70, 300, 25);
 
-        lblUsuarioLogueado.setBounds(20, 230, 100, 25);
-        lblSaldo.setBounds(150, 230, 150, 25);
+        lblUsuarioLogueado.setBounds(20, 250, 100, 25);
+        lblSaldo.setBounds(150, 250, 150, 25);
 
         frame.add(btnJugar);
         frame.add(btnPerfil);
+        frame.add(btnHistorial);
         frame.add(btnSalir);
         frame.add(lblTitulo);
         frame.add(lblBienvenida);
@@ -64,6 +67,7 @@ public class VentanaMenu {
     private void agregarEventos() {
         btnJugar.addActionListener(e -> abrirJuego());
         btnPerfil.addActionListener(e -> abrirPerfil());
+        btnHistorial.addActionListener(e -> abrirHistorial());
         btnSalir.addActionListener(e -> cerrarSesion());
     }
 
@@ -73,6 +77,10 @@ public class VentanaMenu {
 
     private void abrirPerfil() {
         new VentanaPerfil(session, this).mostrarVentana();
+    }
+
+    private void abrirHistorial() {
+        new VentanaHistorial(historial).mostrarVentana();
     }
 
     private void cerrarSesion() {

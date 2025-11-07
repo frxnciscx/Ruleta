@@ -4,7 +4,6 @@ import controlador.SessionController;
 import controlador.ResultadoController;
 import controlador.RuletaController;
 import modelo.TipoApuesta;
-import modelo.Resultado;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.DefaultComboBoxModel;
 
 public class VentanaRuleta {
+
     private final SessionController session;
     private final ResultadoController historial;
     private final RuletaController ruletaControlador;
@@ -33,7 +33,7 @@ public class VentanaRuleta {
     public VentanaRuleta(SessionController session, ResultadoController historial) {
         this.session = session;
         this.historial = historial;
-        this.ruletaControlador = new RuletaController(session.getUsuarioActual());
+        this.ruletaControlador = new RuletaController(session);
         this.frame = new JFrame("Juego Ruleta - Black Cat");
         this.lblSaldo = new JLabel("Saldo: " + ruletaControlador.getSaldoActual());
 
@@ -96,24 +96,21 @@ public class VentanaRuleta {
 
         ruletaControlador.jugar(monto, apuesta);
 
-        int saldoFinal = ruletaControlador.getSaldoActual();
-        boolean acierto = ruletaControlador.getUltimoAcierto();
-        int numero = ruletaControlador.getUltimoNumero();
-
-        Resultado res = new Resultado(numero, apuesta, monto, acierto, saldoFinal);
-        historial.agregarResultado(res);
-
-        actualizarVista(res);
+        actualizarVista(apuesta);
     }
 
-    private void actualizarVista(Resultado res) {
-        String color = (res.getNumero() == 0) ? "Verde" : (ruletaControlador.esRojo(res.getNumero()) ? "Rojo" : "Negro");
-        String gano = res.isAcierto() ? "GANASTE" : "PERDISTE";
+    private void actualizarVista(TipoApuesta apuesta) {
+        int numero = ruletaControlador.getUltimoNumero();
+        boolean acierto = ruletaControlador.getUltimoAcierto();
+        int saldoFinal = ruletaControlador.getSaldoActual();
+
+        String color = (numero == 0) ? "Verde" : (ruletaControlador.esRojo(numero) ? "Rojo" : "Negro");
+        String gano = acierto ? "GANASTE" : "PERDISTE";
 
         lblResultado.setText(String.format("Numero: %d (%s) | Apuesta: %s | %s",
-                res.getNumero(), color, res.getTipoApuesta(), gano));
+                numero, color, apuesta, gano));
 
-        lblSaldo.setText("Saldo: " + res.getSaldoResultante());
+        lblSaldo.setText("Saldo: " + saldoFinal);
     }
 
     public void mostrarVentana() {
