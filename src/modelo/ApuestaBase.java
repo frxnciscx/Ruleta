@@ -1,6 +1,8 @@
 package modelo;
 
-public abstract class ApuestaBase {
+import java.io.Serializable;
+
+public abstract class ApuestaBase implements Serializable {
 
     protected int monto;
     protected String etiqueta;
