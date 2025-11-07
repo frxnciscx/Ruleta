@@ -1,13 +1,7 @@
 package modelo;
 
 public class ApuestaNegro extends ApuestaBase {
-
-    public ApuestaNegro(int monto) {
-        super(monto, "Negro");
-    }
-
+    public ApuestaNegro(int monto) { super(monto, "Negro"); }
     @Override
-    public boolean acierta(int numero, String color) {
-        return color.equals("NEGRO");
-    }
+    public boolean acierta(int numero, String color) { return color.equals("NEGRO"); }
 }
