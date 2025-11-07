@@ -3,14 +3,17 @@ package controlador;
 import modelo.Ruleta;
 import modelo.Usuario;
 import modelo.TipoApuesta;
+import modelo.Resultado;
 
 public class RuletaController {
 
+    private final SessionController session;
     private final Usuario usuario;
     private final Ruleta ruleta;
 
-    public RuletaController(Usuario usuario) {
-        this.usuario = usuario;
+    public RuletaController(SessionController session) {
+        this.session = session;
+        this.usuario = session.getUsuarioActual();
         this.ruleta = new Ruleta(usuario.getSaldo());
     }
 
@@ -20,10 +23,15 @@ public class RuletaController {
         ruleta.jugar(monto, tipoApuesta);
 
         int saldoDespues = ruleta.getSaldo();
-
+        boolean acierto = ruleta.getUltimoAcierto();
+        int numero = ruleta.getUltimoNumero();
         int ganancia = saldoDespues - saldoAntes;
 
         usuario.actualizarSaldo(ganancia);
+
+        Resultado res = new Resultado(numero, tipoApuesta, monto, acierto, saldoDespues);
+
+        usuario.agregarResultado(res);
     }
 
     public int getUltimoNumero() {
