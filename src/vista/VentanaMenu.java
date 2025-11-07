@@ -1,15 +1,17 @@
 package vista;
 
 import controlador.SessionController;
+import controlador.ResultadoController;
 import modelo.Usuario;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 
 public class VentanaMenu {
 
     private final SessionController session;
+    private final ResultadoController historial;
     private final JFrame frame;
 
     private final JLabel lblTitulo = new JLabel("RULETA - Casino Black Cat");
@@ -21,8 +23,9 @@ public class VentanaMenu {
     private final JButton btnPerfil = new JButton("Perfil");
     private final JButton btnSalir = new JButton("Salir");
 
-    public VentanaMenu(SessionController session) {
+    public VentanaMenu(SessionController session, ResultadoController historial) {
         this.session = session;
+        this.historial = historial;
         this.frame = new JFrame("Menu Principal - Black Cat");
 
         Usuario usuario = session.getUsuarioActual();
@@ -65,17 +68,23 @@ public class VentanaMenu {
     }
 
     private void abrirJuego() {
-        JOptionPane.showMessageDialog(frame, "Abrir VentanaRuleta (proximo paso)");
+        new VentanaRuleta(session, historial).mostrarVentana();
     }
 
     private void abrirPerfil() {
-        JOptionPane.showMessageDialog(frame, "Abrir VentanaPerfil (proximo paso)");
+        new VentanaPerfil(session, this).mostrarVentana();
     }
 
     private void cerrarSesion() {
         session.cerrarSesion();
         frame.dispose();
-        new VentanaLogin(session).mostrarVentana();
+        new VentanaLogin(session, historial).mostrarVentana();
+    }
+
+    public void refrescarDatos() {
+        Usuario usuario = session.getUsuarioActual();
+        lblUsuarioLogueado.setText(usuario.getNombre());
+        lblSaldo.setText("Saldo: " + usuario.getSaldo());
     }
 
     public void mostrarVentana() {
