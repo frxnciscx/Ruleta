@@ -2,22 +2,21 @@ package controlador;
 
 import modelo.Resultado;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 public class ResultadoController {
 
-    private final List<Resultado> historial;
+    private final SessionController session;
 
-    public ResultadoController() {
-        this.historial = new ArrayList<>();
+    public ResultadoController(SessionController session) {
+        this.session = session;
     }
 
-    public void agregarResultado(Resultado resultado) {
-        this.historial.add(resultado);
-    }
-
-    public List<Resultado> getHistorial() {
-        return historial;
+    public List<Resultado> getHistorialUsuario() {
+        if (session.hayUsuario()) {
+            return session.getUsuarioActual().getHistorial();
+        }
+        return Collections.emptyList();
     }
 }
