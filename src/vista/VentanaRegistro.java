@@ -1,6 +1,7 @@
 package vista;
 
 import controlador.SessionController;
+import controlador.ResultadoController;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -9,8 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 public class VentanaRegistro {
-
     private final SessionController session;
+    private final ResultadoController historial;
 
     private final JFrame frame = new JFrame("Registro - Casino Black Cat");
     private final JLabel lblUsuario = new JLabel("Usuario: ");
@@ -22,8 +23,9 @@ public class VentanaRegistro {
     private final JButton btnRegistrar = new JButton("Registrar");
     private final JButton btnVolver = new JButton("Volver");
 
-    public VentanaRegistro(SessionController session) {
+    public VentanaRegistro(SessionController session, ResultadoController historial) {
         this.session = session;
+        this.historial = historial;
         inicializarVentana();
     }
 
@@ -77,6 +79,6 @@ public class VentanaRegistro {
 
     private void volverLogin() {
         frame.dispose();
-        new VentanaLogin(session).mostrarVentana();
+        new VentanaLogin(session, historial).mostrarVentana();
     }
 }
