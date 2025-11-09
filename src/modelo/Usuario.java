@@ -1,24 +1,18 @@
 package modelo;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
 
 public class Usuario implements Serializable {
-
     private String username;
     private String password;
     private String nombre;
     private int saldo;
-    private final List<Resultado> historial;
 
     public Usuario(String username, String password, String nombre) {
         this.username = username;
         this.password = password;
         this.nombre = nombre;
         this.saldo = 1000;
-        this.historial = new ArrayList<>();
     }
 
     public Usuario() {
@@ -39,7 +33,6 @@ public class Usuario implements Serializable {
     public String getNombre() {
         return nombre;
     }
-
     public void setNombre(String nombre) {
         if (nombre != null && !nombre.isBlank()) {
             this.nombre = nombre;
@@ -58,13 +51,5 @@ public class Usuario implements Serializable {
 
     public void actualizarSaldo(int monto) {
         this.saldo += monto;
-    }
-
-    public void agregarResultado(Resultado r) {
-        this.historial.add(r);
-    }
-
-    public List<Resultado> getHistorial() {
-        return Collections.unmodifiableList(historial);
     }
 }
