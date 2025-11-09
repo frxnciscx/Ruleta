@@ -1,5 +1,6 @@
 package vista;
 
+import controlador.IRepositorioResultados;
 import controlador.SessionController;
 import controlador.ResultadoController;
 import controlador.RuletaController;
@@ -14,16 +15,15 @@ import javax.swing.JOptionPane;
 import javax.swing.DefaultComboBoxModel;
 
 public class VentanaRuleta {
-
     private final SessionController session;
     private final ResultadoController historial;
+    private final IRepositorioResultados repositorio;
     private final RuletaController ruletaControlador;
 
     private final JFrame frame;
     private final JLabel lblTipoApuesta = new JLabel("Tipo de apuesta:");
     private final JComboBox<String> cmbTipoApuesta = new JComboBox<>(new String[]{"Color", "Paridad"});
     private final JLabel lblSeleccion = new JLabel("Seleccione color:");
-    // Este ComboBox ahora solo guarda Strings
     private final JComboBox<String> cmbSeleccion = new JComboBox<>(new String[]{"ROJO", "NEGRO"});
     private final JLabel lblMonto = new JLabel("Monto:");
     private final JTextField txtMonto = new JTextField("100");
@@ -31,10 +31,12 @@ public class VentanaRuleta {
     private final JLabel lblSaldo;
     private final JLabel lblResultado = new JLabel("Haga su apuesta");
 
-    public VentanaRuleta(SessionController session, ResultadoController historial) {
+    public VentanaRuleta(SessionController session, ResultadoController historial,  IRepositorioResultados repositorio) {
         this.session = session;
         this.historial = historial;
-        this.ruletaControlador = new RuletaController(session);
+        this.repositorio = repositorio;
+
+        this.ruletaControlador = new RuletaController(session, repositorio);
         this.frame = new JFrame("Juego Ruleta - Black Cat");
         this.lblSaldo = new JLabel("Saldo: " + ruletaControlador.getSaldoActual());
 
@@ -75,7 +77,7 @@ public class VentanaRuleta {
             lblSeleccion.setText("Seleccione color:");
             cmbSeleccion.setModel(new DefaultComboBoxModel<>(new String[]{"ROJO", "NEGRO"}));
         } else {
-            lblSeleccion.setText("Seleccione paridad:");
+            lblSeleccion.setText("Seleccione par o impar:");
             cmbSeleccion.setModel(new DefaultComboBoxModel<>(new String[]{"PAR", "IMPAR"}));
         }
     }
