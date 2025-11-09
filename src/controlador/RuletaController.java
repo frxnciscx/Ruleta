@@ -6,7 +6,6 @@ import modelo.ApuestaBase;
 import modelo.Resultado;
 
 public class RuletaController {
-
     private final SessionController session;
     private final Usuario usuario;
     private final Ruleta ruleta;
