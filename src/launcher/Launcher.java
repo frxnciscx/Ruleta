@@ -2,15 +2,20 @@ package launcher;
 
 import controlador.SessionController;
 import controlador.ResultadoController;
+import controlador.IRepositorioResultados;
+import controlador.RepositorioArchivo;
 import vista.VentanaLogin;
 
 public class Launcher {
 
     public static void main(String[] args) {
         SessionController session = new SessionController();
-        ResultadoController historial = new ResultadoController(session);
 
-        VentanaLogin vLogin = new VentanaLogin(session, historial);
+        IRepositorioResultados repositorio = new RepositorioArchivo();
+
+        ResultadoController historial = new ResultadoController(repositorio);
+
+        VentanaLogin vLogin = new VentanaLogin(session, historial, repositorio);
         vLogin.mostrarVentana();
     }
 }
