@@ -1,5 +1,6 @@
 package vista;
 
+import controlador.IRepositorioResultados;
 import controlador.SessionController;
 import controlador.ResultadoController;
 import modelo.Usuario;
@@ -9,11 +10,11 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 
 public class VentanaMenu {
-
     private final SessionController session;
     private final ResultadoController historial;
-    private final JFrame frame;
+    private final IRepositorioResultados repositorio;
 
+    private final JFrame frame;
     private final JLabel lblTitulo = new JLabel("RULETA - Casino Black Cat");
     private final JLabel lblBienvenida = new JLabel("Bienvenido/a al menu principal.");
     private final JLabel lblUsuarioLogueado;
@@ -25,9 +26,10 @@ public class VentanaMenu {
     private final JButton btnEstadisticas = new JButton("Estadisticas");
     private final JButton btnSalir = new JButton("Salir");
 
-    public VentanaMenu(SessionController session, ResultadoController historial) {
+    public VentanaMenu(SessionController session, ResultadoController historial, IRepositorioResultados repositorio) {
         this.session = session;
         this.historial = historial;
+        this.repositorio = repositorio;
         this.frame = new JFrame("Menu Principal - Black Cat");
 
         Usuario usuario = session.getUsuarioActual();
@@ -76,7 +78,7 @@ public class VentanaMenu {
     }
 
     private void abrirJuego() {
-        new VentanaRuleta(session, historial).mostrarVentana();
+        new VentanaRuleta(session, historial, repositorio).mostrarVentana();
     }
 
     private void abrirPerfil() {
@@ -94,7 +96,7 @@ public class VentanaMenu {
     private void cerrarSesion() {
         session.cerrarSesion();
         frame.dispose();
-        new VentanaLogin(session, historial).mostrarVentana();
+        new VentanaLogin(session, historial, repositorio).mostrarVentana();
     }
 
     public void refrescarDatos() {
