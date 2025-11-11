@@ -3,20 +3,15 @@ package controlador;
 import modelo.Resultado;
 
 import java.util.List;
-import java.util.Collections;
 
 public class ResultadoController {
+    private final IRepositorioResultados repositorio;
 
-    private final SessionController session;
-
-    public ResultadoController(SessionController session) {
-        this.session = session;
+    public ResultadoController(IRepositorioResultados repositorio) {
+        this.repositorio = repositorio;
     }
 
     public List<Resultado> getHistorialUsuario() {
-        if (session.hayUsuario()) {
-            return session.getUsuarioActual().getHistorial();
-        }
-        return Collections.emptyList();
+        return this.repositorio.getHistorial();
     }
 }
